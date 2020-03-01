@@ -1,6 +1,8 @@
 # answersFor27
+
 [问题](https://github.com/vianvio/FE-Companions/issues/27) 的回答
-问题列表：
+
+**问题列表：**
 
 1. 一个物体在canvas上逐步下落，怎样才能避免整画布重绘？
 2. save和restore有哪些常见的用法？
