@@ -1,2 +1,10 @@
 # answersFor27
-https://github.com/vianvio/FE-Companions/issues/27 的回答
+[问题](https://github.com/vianvio/FE-Companions/issues/27) 的回答
+问题列表：
+
+1. 一个物体在canvas上逐步下落，怎样才能避免整画布重绘？
+2. save和restore有哪些常见的用法？
+3. 总结一下canvas的其他使用小技巧。
+4. 在200200的画布上实现一个动画，初始状态为中心点一个黑色小圆点(1010)，1秒动画扩张原点并占满整个画布。要求：
+  a. 使用至少2种方案(即不同的核心知识点)完成扩张的效果
+  b. 扩张的贝塞尔曲线入参可以由用户输入
