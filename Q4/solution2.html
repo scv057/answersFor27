@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>通过css动画</title>
+    <style>
+        .box {
+            display: flex;
+            height: 200px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 5px;
+        }
+        @keyframes my {
+            from {
+                width: 20px;
+                height: 20px;
+            }
+            to {
+                width: 300px;
+                height: 300px;
+            }
+        }
+        .box-middle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border: black 1px solid;
+        }
+        #box-in {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+            height: 20px;
+            width: 20px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .run {
+            animation: my 3s cubic-bezier(0.2, 0.8, 0.8, 0.2);
+        }
+        .wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        button {
+            margin: 5px 10px;
+            display: inline-block;
+            width: 70px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box-middle">
+            <div id="box-in">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <form>
+            <div>
+                <label>cp1:x</label>
+                <input type="number" value="0.2" id="p1x">
+                <label for="y1">cp1.y</label>
+                <input type="number" value="0.8" id="p1y">
+            </div>
+
+            <div>
+                <label for="">cp2.x</label>
+                <input type="number" value="0.8" id="p2x">
+                <label for="">cp2.y</label>
+                <input type="number" value="0.2" id="p2y">
+            </div>
+            <div>
+                <label for="">时长:ms</label>
+                <input type="number" value="1000" id="duration">
+            </div>
+            <button id="btn">设置</button>
+        </form>
+    </div>
+
+    <script>
+        let cp1x = document.getElementById("p1x");
+        let cp1y = document.getElementById("p1y");
+        let cp2x = document.getElementById("p2x");
+        let cp2y = document.getElementById("p2y");
+        let duration = document.getElementById("duration");
+        let btn = document.getElementById("btn");
+        let box = document.getElementById("box-in");
+
+        btn.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            let p1x = cp1x.value;
+            let p1y = cp1y.value;
+            let p2x = cp2x.value;
+            let p2y = cp2y.value;
+            let time = duration.value;
+
+            let sheet = document.styleSheets[0];
+            let rules = sheet.cssRules || sheet.rules;
+            for (let rule of rules) {
+                if (rule instanceof CSSStyleRule && rule.selectorText === ".run") {
+                    rule.style.animation = `my ${time}ms cubic-bezier(${p1x}, ${p1y}, ${p2x}, ${p2y})`;
+                }
+            }
+
+            box.classList.remove("run");
+            setTimeout(() => {
+                box.classList.add("run");
+            }, 0);
+        });
+
+
+    </script>
+</body>
+</html>
