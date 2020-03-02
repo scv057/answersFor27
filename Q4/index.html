@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Title</title>
+    <style>
+        .wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+        #canvas {
+            border: 1px solid black;
+        }
+        button {
+            margin: 5px 10px;
+            display: inline-block;
+            width: 70px;
+        }
+        #box {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        #box:hover {
+            animation: my 3s cubic-bezier(0.20, 0.80, 0.80, 0.19);
+        }
+        @keyframes my {
+            from {
+                width: 20px;
+                height: 20px;
+            }
+            to {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <canvas id="canvas" width="200" height="200"></canvas>
+</div>
+<div class="wrap">
+    <form>
+        <div>
+            <label>cp1:x</label>
+            <input type="number" value="0.2" id="p1x">
+            <label for="y1">cp1.y</label>
+            <input type="number" value="0.8" id="p1y">
+        </div>
+
+        <div>
+            <label for="">cp2.x</label>
+            <input type="number" value="0.8" id="p2x">
+            <label for="">cp2.y</label>
+            <input type="number" value="0.2" id="p2y">
+        </div>
+        <div>
+            <label for="">时长:ms</label>
+            <input type="number" value="1000" id="duration">
+        </div>
+        <button id="btn">开始播放</button>
+        <button id="reset">重新开始</button>
+    </form>
+</div>
+
+<script type="module">
+import generate from "./animation.js";
+
+let canvas = document.getElementById("canvas");
+let btn = document.getElementById("btn");
+let reset = document.getElementById("reset");
+let ctx = canvas.getContext("2d");
+let cp1x = document.getElementById("p1x");
+let cp1y = document.getElementById("p1y");
+let cp2x = document.getElementById("p2x");
+let cp2y = document.getElementById("p2y");
+let durationBox = document.getElementById("duration");
+
+let globalID;
+
+let r = 10;
+const startR = 10;
+const endR = 145;
+let duration = 1000;
+const fps = 60;
+let percent = 0;
+let preP = 0;
+let p1x = 0.2;
+let p1y = 0.8;
+let p2x = 0.8;
+let p2y = 0.2;
+
+
+function draw(ctx,r) {
+    ctx.clearRect(0, 0, 200, 200);
+    ctx.beginPath();
+    ctx.arc(100, 100, r, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+}
+
+function animate() {
+    // exit condition
+    if (percent > 1.0 && preP > 1.0) {
+        console.timeEnd("play");
+        resetCanvas();
+        return;
+    }
+    // do something
+    draw(ctx, r);
+    // 时间的百分比
+    preP = percent;
+    percent += 1000 / (fps * duration);
+    // 进度的百分比
+    let p = generate(p1x, p1y, p2x, p2y)(percent);
+    r = (endR - startR) * p + startR;
+    // callback
+    globalID = requestAnimationFrame(animate);
+}
+
+function exitAnimate(){
+    cancelAnimationFrame(globalID);
+    globalID = void 0;
+}
+
+btn.addEventListener("click", function (ev) {
+    ev.preventDefault();
+    p1x = cp1x.value;
+    p1y = cp1y.value;
+    p2x = cp2x.value;
+    p2y = cp2y.value;
+    duration = durationBox.value;
+
+    if (globalID) {
+        exitAnimate();
+        ev.target.innerText = "开始播放";
+    } else {
+        console.time("play");
+        globalID = requestAnimationFrame(animate);
+        ev.target.innerText = "暂停";
+    }
+});
+
+reset.addEventListener("click", function (ev) {
+    ev.preventDefault();
+    resetCanvas();
+});
+
+function resetCanvas() {
+    exitAnimate();
+    btn.innerText = "开始播放";
+    r = 10;
+    percent = 0;
+    draw(ctx, r);
+}
+
+draw(ctx, r);
+
+</script>
+</body>
+</html>
