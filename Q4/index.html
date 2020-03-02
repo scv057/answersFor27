@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Title</title>
+    <title>1. 重绘</title>
     <style>
         .wrap {
             display: flex;
@@ -69,7 +69,7 @@
 </div>
 
 <script type="module">
-import generate from "./animation.js";
+import generate from "./generator.js";
 
 let canvas = document.getElementById("canvas");
 let btn = document.getElementById("btn");
@@ -108,7 +108,7 @@ function animate() {
     // exit condition
     if (percent > 1.0 && preP > 1.0) {
         console.timeEnd("play");
-        resetCanvas();
+        // resetCanvas();
         return;
     }
     // do something

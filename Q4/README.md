@@ -5,12 +5,6 @@
   b. 扩张的贝塞尔曲线入参可以由用户输入
 
 
-
-脑袋中立刻想到的方法有以下两种：
-
-1. 利用css的动画能力。
-2. 用canvas自己实现扩散效果。
-
 忽略某些限定条件，简化一下问题，问题就变成了，实现一个10\*10的圆，扩散的动画。
 
 ```javascript
@@ -146,7 +140,7 @@ export default function generate(p1x, p1y, p2x, p2y) {
 }
 ```
 
-
+这样我们就能完成 *p = f(t),t∈[0,1]* 的转换
 
 易知，很多效果都是，调整control-point值得到的，是贝塞尔曲线的特殊形式。通用形式如下
 
@@ -161,4 +155,12 @@ export default function generate(p1x, p1y, p2x, p2y) {
 function animation(keyframes, duration, cp1, cp2){}
 ```
 
-最终实现见github.
+只要我们往里面传控制点就可以达到设置过度效果了。
+
+全部代码放在[这里](https://github.com/laoxielearnsth/answersFor27/blob/master/Q4/index.html)。
+
+todo
+1. 丰富多种类的keyframes
+2. 内置一些常用的 timing-function模型
+3. 添加 delay 参数
+4. 添加 iteration-count 参数
