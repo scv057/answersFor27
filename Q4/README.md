@@ -157,7 +157,7 @@ function animation(keyframes, duration, cp1, cp2){}
 
 只要我们往里面传控制点就可以达到设置过度效果了。
 
-全部代码放在[这里](https://github.com/laoxielearnsth/answersFor27/blob/master/Q4/index.html)。
+全部代码放在[这里](https://github.com/laoxielearnsth/answersFor27/blob/master/Q4)。
 
 todo
 1. 丰富多种类的keyframes
