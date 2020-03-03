@@ -1,9 +1,9 @@
 /**
  * @author xieyanghao
- * @date 2020-2020/2/29-11:58 上午
- * @description 物体在canvas下面下落，如何避免全局重绘的简单情况，如果形状已知
+ * @date 2020-2020/3/3-11:57 上午
  */
 "use strict";
+
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 let btn = document.getElementById("btn");
@@ -20,22 +20,40 @@ class Star{
     }
 
     init(ctx){
-        ctx.fillRect(this.x, 0, this.width, this.width);
+        // ctx.fillRect(this.x, 0, this.width, this.width);
+        this.draw(ctx);
     }
 
     fall(ctx){
         if (this.count <=0) {
-            this.count = 10000;
+            this.count = 1000000;
             return;
         } else {
             this.count--;
         }
-        ctx.clearRect(this.x, this.y, this.width, this.width);
-        ctx.save();
-        ctx.fillStyle = "black";
+
+        // 原路径重绘
+        // ctx.save();
+        // ctx.fillStyle = "white";
+        // this.draw(ctx);
+        // ctx.fill();
+        // ctx.restore();
+        // 记录左上角，右下角，小范围重绘
+        ctx.clearRect(this.x-35, this.y, 70, 25);
         this.y += this.v;
-        ctx.fillRect(this.x, this.y, this.width, this.width);
-        ctx.restore();
+        this.draw(ctx);
+        ctx.fill();
+        // ctx.fillRect(this.x, this.y, this.width, this.width);
+    }
+
+    draw(ctx){
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x+20, this.y);
+        ctx.lineTo(this.x+35, this.y+10);
+        ctx.lineTo(this.x+20, this.y+25);
+        ctx.lineTo(this.x-35, this.y + 10);
+        ctx.closePath();
     }
 }
 
